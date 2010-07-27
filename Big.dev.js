@@ -2,11 +2,23 @@ var Big;
 
 (function() { 
   var 
-    valid = /^(\d+(\.\d*)?)|(\.\d+)$/;
+    valid = /^[\+\-]?(\d+(\.\d*)?)|(\.\d+)$/,
+    POSITIVE = false,
+    NEGATIVE = true;
 
   Big = function(str) {
     if (!valid.test(str)) {
       throw "Format exception: \"" + str + "\"";
+    }
+    
+    this.sign = POSITIVE;
+    
+    if (/^[\+\-]/.test(str)) {
+      if (str[0] == "-") {
+        this.sign = NEGATIVE;
+      }
+      
+      str = str.substring(1);
     }
 
     if (str.indexOf(".") == -1) {
@@ -29,7 +41,14 @@ var Big;
       this.whole = dec[0];
       this.fractional = dec[1];
     }
+    
+    if (trim(this.whole + this.fractional) == "") {
+      this.sign = POSITIVE;
+    }
   }
+  
+  Big.POSITIVE = POSITIVE;
+  Big.NEGATIVE = NEGATIVE;
   
   Big.prototype.lessThan = function(right) {
     return inequal("lessThan", this, right);
@@ -59,7 +78,19 @@ var Big;
     return [ trim(this.whole), ".", trim(this.fractional) ].join("");
   }
   
+  Big.prototype.isZero = function() {
+    return trim(this.toString()) == ".";
+  }
+  
   function equal(left, right) {
+    if (left.isZero() && right.isZero()) {
+      return true;
+    }
+    
+    if (left.sign != right.sign) {
+      return false;
+    }
+    
     var wholeNorm = Math.max(
       left.whole.length,
       right.whole.length
@@ -79,12 +110,25 @@ var Big;
   function inequal(type, left, right) {
     if (type == "lessThan") {
       var a = -1, b = 1;
+      
+      if (left.sign != right.sign) {
+        return left.sign == Big.NEGATIVE;
+      }
     }
     else if (type == "greaterThan") {
       var a = 1, b = -1;
+      
+      if (left.sign != right.sign) {
+        return left.sign == Big.POSITIVE;
+      }
     }
     else {
       throw "Bad argument in inequal";
+    }
+    
+    if (left.sign == Big.NEGATIVE) {
+      a = -a;
+      b = -b;
     }
     
     var wholeNorm = Math.max(
@@ -103,9 +147,9 @@ var Big;
     }
     
     else if (comp == b) {
-      return false;
-    
+      return false;    
     }
+    
     else {
       var fractionalNorm = Math.max(
         left.fractional.length,
