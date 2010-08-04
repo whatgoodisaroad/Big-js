@@ -5,7 +5,7 @@ var
   expect, actual,
   succeed = 0, fail = 0, total = 0;
 
-load('Big.dev.js');
+load('Big.js');
 
 function rand(n) {
   return Math.floor(Math.random() * n);
@@ -28,14 +28,18 @@ function randn(w) {
     return w + "." + rands();
   }
   else {
-    return rands() + "." + rands();
+    return (Math.random() > 0.5 ? "-" : "") + rands() + "." + rands();
   }
 }
 
 function oracle(expr, type) {
   var opts = { output:"" };
 
-  runCommand("./bc.wrapper.sh", expr, opts);
+  var retcode = runCommand("./bc.wrapper.sh", expr, opts);
+
+  if (retcode) {
+    print("bc returned fail, expr: \"" + expr + "\"");
+  }
 
   if (type == "boolean") {
     return !!(opts.output * 1);

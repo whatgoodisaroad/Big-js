@@ -1,5 +1,6 @@
 //  Big.js
 //  v0.7.0 (beta)
+//  http://github.com/whatgoodisaroad/Big-js
 //  By Wyatt Allen
 //  MIT Licensed
 //  Tuesday, July 27 2010

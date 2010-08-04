@@ -1,31 +1,42 @@
 #! /bin/sh
 
+generateRand() {
+  numA=`cat /dev/urandom | od -N4 -An -f | sed 's/e[\+\-]//' | bc`;
+
+  shiftA=`cat /dev/urandom | od -N4 -An -i | bc`;
+
+  bcexpr="$numA * ($shiftA % 1000)";
+
+  rand=`echo "$bcexpr" | bc`;
+}
+
 rm -rf ./temp.js;
 touch ./temp.js;
 
 loader="load('Big.js');";
 
-for i in {1..5}
+for i in 1
 do
 
-  wholeA=`cat /dev/urandom|od -N4 -An -i`;
-  fracA=`cat /dev/urandom|od -N4 -An -i`;
-  
-  testA=`echo "$wholeA / 1000" | bc`;
-  
-  echo $testA;
-  #echo $testB;
+  generateRand;
+  testA=$rand;
 
-  #jsexp="$loader print((new Big('$testA')).lessThan(new Big('$testB')));";
+  generateRand;
+  testB=$rand;
 
-  #echo $jsexp >> ./temp.js;
+  echo "testA = $testA, testB = $testB";
 
-  #jres=`rhino -f ./temp.js;`;
+  jsexp="$loader print((new Big('$testA')).lessThan(new Big('$testB')));";
 
-  #bcexp="$testA<$testB";
+  echo $jsexp >> ./temp.js;
 
-  #bcres=`echo "$bcexp" | bc`;
+  jres=`rhino -f ./temp.js;`;
 
-  #echo "$bcres $jres";
+  bcexp="$testA<$testB";
+
+  bcres=`echo "$bcexp" | bc`;
+
+  echo "$bcres $jres";
 
 done
+
