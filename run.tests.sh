@@ -1,3 +1,2 @@
 #! /bin/bash
-rhino test.script.rhino.js
-
+time rhino test.script.rhino.js

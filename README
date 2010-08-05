@@ -1,8 +1,9 @@
-   ___   _________     __ ____
-  / _ ) /  _/ ___/ __ / // __/
- / _  |_/ // (_ /_/ // /_\ \  
-/____//___/\___/(_)___//___/  
+     ___   _________     __ ____
+    / _ ) /  _/ ___/ __ / // __/
+   / _  |_/ // (_ /_/ // /_\ \  
+  /____//___/\___/(_)___//___/  
                               
+===================================
 
 Big.js
 An Arbitrary Precision Math Library for JavaScript
@@ -19,11 +20,13 @@ OR:
 
     Big.parse("567.890"); // --> [Object]
 
-==Operator Support==
+==Method Support==
 
 Version 0.7.*:
     lessThan, lessThanOrEqualTo, greaterThan, greaterThanOrEqualTo, equals
 
+Version 0.8.*:
+    plus, minus, negate, clone
 
 ==Runing Unit Tests==
 
@@ -43,4 +46,3 @@ a small list of system requirements.
 To run the unit tests, execute the shell script:
 
     ./run.tests.sh
-
