@@ -184,6 +184,34 @@ function sameExponent(l, r) {
     else  /*(l.exponent > r.exponent)*/ { return { l:l, r:abnormalize(l.exponent, r) }; }
 }
 
+// Right-Pads the mantissae until they are the same length.
+// Returns a tuple of bigs.
+function sameLength(l, r) {
+    var 
+        ll = l.mantissa.length, 
+        rl = r.mantissa.length;
+    
+    if (ll == rl)           {   return { l:l, r:r }; }
+    else if (ll < rl)       {   return { 
+                                    l:new Big(  
+                                        l.sign, 
+                                        l.exponent,
+                                        padR(rl, l.mantissa)
+                                    ), 
+                                    r:r 
+                                }; 
+                            }
+    else /* (ll > rl) */    {   return { 
+                                    l:l,
+                                    r:new Big(  
+                                        r.sign, 
+                                        r.exponent,
+                                        padR(ll, r.mantissa)
+                                    ), 
+                                }; 
+                            }
+}
+
 function negate(b) {
     return new Big(
         !b.sign,

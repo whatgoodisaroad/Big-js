@@ -19,6 +19,7 @@ function subtract(l, r) {
         }
         
         var same = sameExponent(l, r);
+        same = sameLength(same.l, same.r);
         
         return new Big(
             l.sign,
