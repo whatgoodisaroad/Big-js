@@ -3,7 +3,7 @@ function add(l, r) {
     var same = sameExponent(l, r);
     
 	if (l.sign == r.sign) {
-        var sum = new Big(
+        return new Big(
             l.sign,
             same.l.exponent + 1,
             addMantissae(
@@ -11,9 +11,6 @@ function add(l, r) {
                 same.r.mantissa
             )
         );
-        
-        if (l.sign == POSITIVE)         { return sum; }
-        else /*(l.sign == NEGATIVE)*/   { return negate(sum); }
     }
     
     // Addition with inequal signs is reducible to subtraction:
