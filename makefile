@@ -1,3 +1,19 @@
+big_no_closure:
+	@ echo "Preparing build directory..."
+	@ rm -rf build
+	@ mkdir -p build
+	@ echo "Building big..."
+	@ cd code; make big_no_closure
+	@ mv ./code/Big.js ./build/Big.no_closure.js
+
+tests: big_no_closure
+	mv ./build/Big.no_closure.js ./tests
+
 all:
-	@ cat header.js > Big.min.js
-	@ ../jsmin/jsmin.bin < ./Big.js >> Big.min.js
+	@ echo "Preparing build directory..."
+	@ rm -rf build
+	@ mkdir -p build
+	@ echo "Building big..."
+	@ cd code; make all
+	@ mv ./code/Big.js ./build
+   
