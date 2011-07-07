@@ -29,16 +29,32 @@ var zero = new Big(POSITIVE, 1, []);
 
 // Do comparison on two bigs, returns a comparison constant:
 function compare(bl, br) {
-    if (bl.sign > br.sign)              { return GT; }
-    else if (bl.sign < br.sign)         { return LT; }
     
-    if (bl.exponent > br.exponent)      { return GT; }
-    else if (bl.exponent < br.exponent) { return LT; }
+    if (bl.sign != br.sign) {
+        if (bl.sign == POSITIVE)                { return GT; }
+        else /* (bl.sign == NEGATIVE) */        { return LT; }
+    }
     
-    return compareMantissae(bl.mantissa, br.mantissa);
+    else if (bl.exponent != br.exponent) {
+        if (bl.sign == POSITIVE) {
+            if (bl.exponent > br.exponent)          { return GT; }
+            else                                    { return LT; }
+        }
+        else {
+            if (bl.exponent > br.exponent)          { return LT; }
+            else                                    { return GT; }
+        }
+    }
+    
+    else {
+        return bl.sign == POSITIVE ?
+            compareMantissae(bl.mantissa, br.mantissa) :
+            compareMantissae(br.mantissa, bl.mantissa);
+    }
 }
 
-// Compare only mantissae:
+// Compare only mantissae, assuming they correspond to equal 
+// exponents:
 function compareMantissae(m1, m2) {
     if (!m2.length) {
         if (mantissaIsZero(m1)) { return EQ; }
@@ -87,7 +103,7 @@ function fractionalString(b) {
 // Trim zeroes from the left:
 function trimL(m) {
     return stringToMantissa(
-        mantissaToString(m).replace(/0^+/, "")
+        mantissaToString(m).replace(/^0+/, "")
     );
 }
 

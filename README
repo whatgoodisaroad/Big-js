@@ -39,9 +39,10 @@ a small list of system requirements.
         execute the library code quickly and programmatically (and without a 
         browser).
 
-    2)  The "bc" UNIX utility. This ships standard with most UNIX's. It is a 
-        programming language built around an infinite precision math library
-        used here as an "oracle" for the differential testing.
+    2)  The "apcalc" UNIX utility. On debian variants it can be installed with 
+        the command "apt-get install apcalc". It is a programming language built 
+        around an infinite precision math library used here as an "oracle" for 
+        the differential testing.
 
 To run the unit tests, execute the shell script:
 
