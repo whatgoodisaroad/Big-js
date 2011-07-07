@@ -18,8 +18,8 @@ function add(l, r) {
         var cmp = compareMantissae(same.l.mantissa, same.r.mantissa);
         
         if (cmp == EQ)                  { return zero; }
-        else if (cmp == LT)             { return negate(subtract(same.r, same.l)); }
-        else /*(cmp == GT)*/            { return subtract(same.l, negate(same.r)); }
+        else if (l.sign == POSITIVE)    { return subtract(same.l, negate(same.r)); }
+        else /* (l.sign == NEGATIVE) */ { return subtract(same.r, negate(same.l)); }
     }
 }
 

@@ -1,6 +1,6 @@
 module("add");
 
-test("add(l, r)", 4, function() {
+test("add(l, r)", 5, function() {
     var l, r, expected, result;
     
     l = new Big("3");
@@ -26,4 +26,10 @@ test("add(l, r)", 4, function() {
     expected = new Big("-9");
     result = normalize(add(l, r));
     deepEqual(result, expected, "add correctly adds two negative integers");
+    
+    l = new Big("4");
+    r = new Big("-36");
+    expected = new Big("-32");
+    result = normalize(add(l, r));
+    deepEqual(result, expected, "add correctly adds negative integer to positive integer");
 });
