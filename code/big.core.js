@@ -2,7 +2,10 @@
 function lex(src) {
     var 
         hasSign = /^[+-]/.test(src),
-        hasDecimal = /^[+-]?\d*\.\d*$/.test(src);
+        hasDecimal = /^[+-]?\d*\.\d*$/.test(src),
+        withoutSign = hasSign ? 
+            src.slice(1) :
+            src;
     
     return normalize(
         new Big(
@@ -11,13 +14,11 @@ function lex(src) {
                 POSITIVE,
                 
             hasDecimal ? 
-                src.indexOf(".") :
-                src.length,
+                withoutSign.indexOf(".") :
+                withoutSign.length,
                 
             stringToMantissa(
-                hasSign ?
-                    src.slice(1).replace(".", "") :
-                    src.replace(".", "")
+                withoutSign.replace(".", "")
             )
         )
     );

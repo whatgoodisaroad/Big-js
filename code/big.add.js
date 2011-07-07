@@ -2,8 +2,6 @@
 function add(l, r) {
     var same = sameExponent(l, r);
     
-    console.log(same);
-    
 	if (l.sign == r.sign) {
         var sum = new Big(
             l.sign,
@@ -24,7 +22,7 @@ function add(l, r) {
         
         if (cmp == EQ)                  { return zero; }
         else if (cmp == LT)             { return negate(subtract(same.r, same.l)); }
-        else /*(cmp == GT)*/            { return subtract(same.l, same.r); }
+        else /*(cmp == GT)*/            { return subtract(same.l, negate(same.r)); }
     }
 }
 
