@@ -1,0 +1,188 @@
+<html>
+  <head>
+    <title>Inequality Tester</title>
+  </head>
+  <body>
+    <script type="text/javascript" src="Big.hs.js"></script>
+    <script type="text/javascript">
+      function rand(n) {
+        return Math.floor(Math.random() * n);
+      }
+      
+      function rands(l) {
+        if (!l) {
+          l = rand(10) + 1;
+        }
+        var s = "";
+        for (var idx = 0; idx < l; ++idx) {
+          s += "" + rand(10);
+        }
+        return s;
+      }
+      
+      function padR(n, d) {
+        return n + new Array(Math.max(0, d - (n + '').length + 1)).join(0);
+      };
+      
+      
+      function parseDec(dec) {
+        return parseInt(dec, 10);
+      }
+      
+      function disp(isPass, msg) {
+        if (isPass) return;
+      
+        document.write(
+          [
+            "<span class='",
+            isPass ? "p" : "f",
+            "'>",
+            msg,
+            "</span><br />"
+          ].join("")
+        );
+      }
+      
+      var 
+        whole1, whole2, 
+        frac1, frac2, 
+        string1, string2, 
+        big1, big2, 
+        expect;
+      
+      for (var idx = 0; idx < 100; ++idx) {
+        expect = null;
+      
+        switch (rand(2)) {
+          
+          // Both different
+          case 0:
+            whole1 = rands();
+            
+            do {
+              whole2 = rands();
+            }
+            while (parseDec(whole2) == parseDec(whole1));
+            
+            frac1 = rands();
+            
+            do {
+              frac2 = rands();
+            }
+            while (parseDec(frac2) == parseDec(frac1));
+            
+            string1 = whole1 + "." + frac1;
+            string2 = whole2 + "." + frac2;
+            
+            big1 = new Big(string1);
+            big2 = new Big(string2);
+            
+            if (parseDec(whole1) > parseDec(whole2)) {
+              expect = 1;
+            }
+            else {
+              expect = -1;
+            }
+          
+            break;
+          
+          // Same whole:
+          case 1:
+            whole1 = whole2 = rands();
+            
+            frac1 = rands();
+            
+            var fracL;
+            
+            do {
+              frac2 = rands();
+              
+              fracL = Math.max(frac1.length, frac2.length);
+            }
+            while (padR(parseDec(frac2), fracL) == padR(parseDec(frac1), fracL));
+            
+            string1 = whole1 + "." + frac1;
+            string2 = whole2 + "." + frac2;
+            
+            big1 = new Big(string1);
+            big2 = new Big(string2);
+            
+            if (parseDec(padR(frac1, fracL)) > parseDec(padR(frac2, fracL))) {
+              expect = 1;
+            }
+            else {
+              expect = -1;
+            }
+          
+            break;
+            
+          case 2:
+          
+            
+          
+            break;
+        }
+        
+        switch (expect) {
+          case 1:
+            disp(
+              big1.greaterThan(big2) && 
+              big1.greaterThanOrEqualTo(big2) &&
+              !big1.lessThan(big2) &&
+              !big1.lessThanOrEqualTo(big2) &&
+              
+              !big2.greaterThan(big1) && 
+              !big2.greaterThanOrEqualTo(big1) &&
+              big2.lessThan(big1) &&
+              big2.lessThanOrEqualTo(big1),
+              
+              big1.toString() + " > " + big2.toString()
+            );
+            
+            break;
+            
+          case -1:
+            disp(
+              !big1.greaterThan(big2) && 
+              !big1.greaterThanOrEqualTo(big2) &&
+              big1.lessThan(big2) &&
+              big1.lessThanOrEqualTo(big2) &&
+              
+              big2.greaterThan(big1) && 
+              big2.greaterThanOrEqualTo(big1) &&
+              !big2.lessThan(big1) &&
+              !big2.lessThanOrEqualTo(big1),
+              
+              big1.toString() + " < " + big2.toString()
+            );
+            
+            break;
+            
+          case 0:
+            disp(!big1.equals(big2), big1.toString() + " = " + big2.toString());
+            
+            disp(
+              !big1.greaterThan(big2) && 
+              big1.greaterThanOrEqualTo(big2) &&
+              !big1.lessThan(big2) &&
+              big1.lessThanOrEqualTo(big2) &&
+              
+              !big2.greaterThan(big1) && 
+              big2.greaterThanOrEqualTo(big1) &&
+              !big2.lessThan(big1) &&
+              big2.lessThanOrEqualTo(big1),
+              
+              big1.toString() + " == " + big2.toString()
+            );
+            
+            break;
+            
+        }
+      }
+    </script>
+    <style type="text/css">
+      .p { color:green; }
+      .f { color:red; }
+    </style>
+  </body>
+</html>
