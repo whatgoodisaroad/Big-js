@@ -20,7 +20,7 @@ function subtract(l, r) {
         
         var same = sameExponent(l, r);
         same = sameLength(same.l, same.r);
-        
+
         return new Big(
             l.sign,
             same.l.exponent,
@@ -42,25 +42,18 @@ function subtract(l, r) {
 // equal and that the first argument is greater so that no carry 
 // will occur.
 function subtractMantissae(m1, m2) {
+    if (m1.length == 0) { return []; }
+
     var 
-        diff = new Array(m1.length),
-        temp;
+        i1 = init(m1), i2 = init(m2),
+        l1 = last(m1), l2 = last(m2);
         
-    for (var idx = m1.length - 1; idx >= 0; --idx) {
-        if (m1[idx] < m2[idx]) {
-            temp = 10 + m1[idx] - m2[idx];
-            
-            m1 = borrowFromMantissa(m1);
-        }
-        
-        else {
-            temp = m1[idx] - m2[idx];
-        }
-        
-        diff[idx] = temp;
+    if (l1 < l2) {
+        return subtractMantissae(borrowFromMantissa(i1), i2).concat([ l1 + 10 - l2 ]);
     }
-    
-    return diff;
+    else {
+        return subtractMantissae(i1, i2).concat([ l1 - l2 ]);
+    }
 }
 
 // Subtracts one from a given mantissa:

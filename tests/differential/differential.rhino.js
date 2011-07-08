@@ -19,6 +19,12 @@ var test = {
     }
 };
 
+var numtests = (arguments.length > 0 && /^\d+$/.test(arguments[0])) ? 
+    parseInt(arguments[0]) : 
+    128;
+
+var partLength = 2;
+    
 term.blue("**** differential.rhino.js ****");
 
 term.normal("Loading Big.no_closure.js");
@@ -49,11 +55,13 @@ function oracle(expr, type) {
 
 function random() {
     var 
-        wl = Math.floor(Math.random() * 8 + 1),
-        fl = Math.floor(Math.random() * 8 + 1),
+        wl = Math.floor(Math.random() * (partLength - 2) + 1),
+        fl = Math.floor(Math.random() * (partLength - 1) + 1),
         res = "";
         
-    for (var idx = 0; idx < wl; ++idx) {
+    res += (Math.floor(Math.random() * 8) + 1) + "";
+        
+    for (var idx = 0; idx < wl - 1; ++idx) {
         res += Math.floor(Math.random() * 9) + "";
     }
     
@@ -81,7 +89,27 @@ function addTest(l, r) {
     }
 }
 
-addTest(random(), random());
+function subtractionTest(l, r) {
+    var 
+        bl = new Big(l),
+        br = new Big(r),
+        expression = l + " - " + r,
+        expected = oracle(expression, "number"),
+        result = bl.minus(br);
+    if (expected == result + "") {
+        test.pass(expression, expected, result);
+    }
+    else {
+        test.fail(expression, expected, result);
+    }
+}
+
+for (var idx = 0; idx < numtests; ++idx) {
+    addTest(random(), random());
+    subtractionTest(random(), random());
+}
+
+term.normal("\nDone.");
 
     
     

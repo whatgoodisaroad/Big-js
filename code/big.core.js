@@ -159,6 +159,14 @@ function map(fn, arr) {
     return result;
 }
 
+function zipWith(a1, a2, fn) {
+    var result = new Array(a1.length);
+    for (var idx = 0; idx < a1.length; ++idx) {
+        result[idx] = fn(a1[idx], a2[idx]);
+    }
+    return result;
+}
+
 // Converts a string to a mantissa array:
 function stringToMantissa(sz) {
     return map(
