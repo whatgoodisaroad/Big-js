@@ -32,6 +32,19 @@ test("compareMantissae(m1, m2)", function() {
     equal(result, expect, "compareMantissae correctly compares long mantissae");
 });
 
+test("abnormalize(exp, b)", function() {
+    var exp, src, b, expected_exp, result;
+    
+    exp = 2;
+    src = "3.1415";
+    b = new Big(src);
+    result = abnormalize(exp, b);
+    
+    equal(result.exponent, exp, "Abnormalize correctly sets the resulting exponent");
+    equal(result.toString(), src, "Abnormalize does not change the unerlying value");
+    
+});
+
 test("sameExponent(l, r)", function() {
     var l, r, expected, result;
     

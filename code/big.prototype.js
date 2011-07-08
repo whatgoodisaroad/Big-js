@@ -4,10 +4,12 @@
 Big.prototype.toString = function() {
     if (mantissaIsZero(this.mantissa)) { return "0"; }
     
+    var norm = normalize(this);
+    
     return (
         (this.sign == NEGATIVE ? "-" : "") +
-            wholeString(this) +
-            fractionalString(this)
+            wholeString(norm) +
+            fractionalString(norm)
     );
 };
 

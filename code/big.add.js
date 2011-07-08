@@ -1,6 +1,7 @@
 // Add two Big numbers together and return the sum as another Big:
 function add(l, r) {
     var same = sameExponent(l, r);
+    same = sameLength(same.l, same.r);
     
 	if (l.sign == r.sign) {
         return new Big(

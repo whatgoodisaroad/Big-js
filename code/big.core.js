@@ -114,6 +114,7 @@ function trimR(m) {
     );
 }
 
+
 // Take first len elements of m:
 function take(len, m) { return m.slice(0, len); }
 
@@ -188,7 +189,10 @@ function abnormalize(exp, b) {
     return new Big(
         b.sign,
         exp,
-        padL(exp, b.mantissa)
+        padL(
+            (exp - b.exponent) + b.mantissa.length, 
+            b.mantissa
+        )
     );
 }
 

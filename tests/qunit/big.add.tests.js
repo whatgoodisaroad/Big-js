@@ -1,6 +1,6 @@
 module("add");
 
-test("add(l, r)", 5, function() {
+test("add(l, r)", 7, function() {
     var l, r, expected, result;
     
     l = new Big("3");
@@ -32,6 +32,12 @@ test("add(l, r)", 5, function() {
     expected = new Big("-32");
     result = normalize(add(l, r));
     deepEqual(result, expected, "add correctly adds negative integer to positive integer");
+    
+    l = new Big("3.456789");
+    r = new Big("789.1");
+    expected = new Big("792.556789");
+    result = normalize(add(l, r));
+    deepEqual(result, expected, "add correctly adds positive reals with different whole and fractional lengths");
     
     l = new Big("8716138.12");
     r = new Big("55257081.72085");
