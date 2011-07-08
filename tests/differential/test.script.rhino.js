@@ -44,7 +44,7 @@ function oracle(expr, type) {
     try {
         var opts = { output:"" };
 
-        var retcode = runCommand("./bc.wrapper.sh", expr, opts);
+        var retcode = runCommand("./apcalc.wrapper.sh", expr, opts);
 
         if (retcode) {
             print("bc returned fail, expr: \"" + expr + "\"");

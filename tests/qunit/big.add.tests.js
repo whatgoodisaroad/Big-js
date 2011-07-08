@@ -32,4 +32,10 @@ test("add(l, r)", 5, function() {
     expected = new Big("-32");
     result = normalize(add(l, r));
     deepEqual(result, expected, "add correctly adds negative integer to positive integer");
+    
+    l = new Big("8716138.12");
+    r = new Big("55257081.72085");
+    expected = new Big("63973219.84085");
+    result = normalize(add(l, r));
+    deepEqual(result, expected, "add correctly adds large positive reals");
 });

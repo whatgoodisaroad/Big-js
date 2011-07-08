@@ -12,16 +12,17 @@ var
 Big = function(src) {
     // Coalesce numbers to strings.
     if (typeof src == "number") {
-        src = "" + src;
+        this.expr = src = "" + src;
     }
     
     // Parse and load the string version.
     if (src.substring) {
-        var l = lex(src);
+        var l = lex(src.replace(/(^\s+)|(\s+$)/g, ""));
         
         this.sign = l.sign;
         this.exponent = l.exponent;
         this.mantissa = l.mantissa;
+        this.expr = this.toString();
     }
     
     // Load by parts.
@@ -29,6 +30,8 @@ Big = function(src) {
         this.sign = arguments[0];
         this.exponent = arguments[1];
         this.mantissa = arguments[2];
+        this.expr = arguments[3];
+        this.expr = this.toString();
     }
 };
 
