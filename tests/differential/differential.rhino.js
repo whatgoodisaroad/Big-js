@@ -16,14 +16,27 @@ var test = {
     fail:function(expr, expected, result) {
         ++this.fc
         term.yellow("expr:" + expr + "\toracle:" + expected + "\tbig:" + result);
+    },
+    
+    percentage:function() {
+        return ((this.pc / (this.pc + this.fc)) * 100).toFixed(2);
+    },
+    
+    printResults:function() {
+        term.blue(
+            this.percentage() + 
+            "% tests passed " + 
+            "(" + this.pc + "/" + (this.pc + this.fc) + ")"
+        );
     }
+    
 };
 
 var numtests = (arguments.length > 0 && /^\d+$/.test(arguments[0])) ? 
     parseInt(arguments[0]) : 
     128;
 
-var partLength = 2;
+var partLength = 10;
     
 term.blue("**** differential.rhino.js ****");
 
@@ -108,6 +121,10 @@ for (var idx = 0; idx < numtests; ++idx) {
     addTest(random(), random());
     subtractionTest(random(), random());
 }
+
+print("\n");
+
+test.printResults();
 
 term.normal("\nDone.");
 
