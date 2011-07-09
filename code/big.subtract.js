@@ -33,8 +33,8 @@ function subtract(l, r) {
     
     // Subtraction with inequal signs is reducible to addition.
     else /*(l.sign != r.sign)*/ {
-        if (l.sign == POSITIVE)         { return add(l, r); }
-        else /*(l.sign == NEGATIVE)*/   { return negate(add(l, r)); }
+        if (l.sign == POSITIVE)         { return add(l, negate(r)); }
+        else /*(l.sign == NEGATIVE)*/   { return negate(add(negate(l), r)); }
     }
 }
 

@@ -1,6 +1,6 @@
 module("add");
 
-test("add(l, r)", 7, function() {
+test("add(l, r)", function() {
     var l, r, expected, result;
     
     l = new Big("3");
@@ -42,6 +42,12 @@ test("add(l, r)", 7, function() {
     l = new Big("8716138.12");
     r = new Big("55257081.72085");
     expected = new Big("63973219.84085");
+    result = normalize(add(l, r));
+    deepEqual(result, expected, "add correctly adds large positive reals");
+    
+    l = new Big("-1.1");
+    r = new Big("1.8");
+    expected = new Big("0.7");
     result = normalize(add(l, r));
     deepEqual(result, expected, "add correctly adds large positive reals");
 });

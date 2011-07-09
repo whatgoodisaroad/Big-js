@@ -59,6 +59,9 @@ function compare(bl, br) {
 // Compare only mantissae, assuming they correspond to equal 
 // exponents:
 function compareMantissae(m1, m2) {
+    m1 = m1.slice();
+    m2 = m2.slice();
+
     if (!m2.length) {
         if (mantissaIsZero(m1)) { return EQ; }
         else                    { return GT; }

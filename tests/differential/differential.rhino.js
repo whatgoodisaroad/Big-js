@@ -72,6 +72,8 @@ function random() {
         fl = Math.floor(Math.random() * (partLength - 1) + 1),
         res = "";
         
+    if (Math.random() > 0.5) { res += "-"; }
+        
     res += (Math.floor(Math.random() * 8) + 1) + "";
         
     for (var idx = 0; idx < wl - 1; ++idx) {
@@ -91,7 +93,7 @@ function addTest(l, r) {
     var 
         bl = new Big(l),
         br = new Big(r),
-        expression = l + " + " + r,
+        expression = "(" + l + ") + (" + r + ")"
         expected = oracle(expression, "number"),
         result = bl.plus(br);
     if (expected == result + "") {
@@ -106,7 +108,7 @@ function subtractionTest(l, r) {
     var 
         bl = new Big(l),
         br = new Big(r),
-        expression = l + " - " + r,
+        expression = "(" + l + ") - (" + r + ")",
         expected = oracle(expression, "number"),
         result = bl.minus(br);
     if (expected == result + "") {

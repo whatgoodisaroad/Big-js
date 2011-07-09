@@ -26,6 +26,24 @@ test("subtract(l, r)", 0, function() {
     expected = new Big("0.4");
     result = normalize(subtract(l, r));
     deepEqual(result, expected, "subtract correctly subtracts near reals");
+    
+    l = new Big(6.161);
+    r = new Big(-853.721);
+    expected = new Big(859.882);
+    result = normalize(subtract(l, r));
+    deepEqual(result, expected, "subtract correctly subtracts negative from positive");
+    
+    // l = new Big(-52.5631613);
+    // r = new Big(680.514537350);
+    // expected = new Big(-733.07769865);
+    // result = normalize(subtract(l, r));
+    // deepEqual(result, expected, "subtract correctly subtracts negative from negative");
+    
+    l = new Big(-2.5);
+    r = new Big(2.1);
+    expected = new Big(-4.6);
+    result = normalize(subtract(l, r));
+    deepEqual(result, expected, "subtract correctly subtracts positive from negative");
 });
 
 test("subtractMantissae(m1, m2)", 0, function() {
