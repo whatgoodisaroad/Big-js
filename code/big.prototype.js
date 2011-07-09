@@ -53,7 +53,7 @@ Big.prototype.clone = function() {
     return new Big(
         this.sign,
         this.exponent,
-        this.mantissa
+        this.mantissa.slice()
     );
 };
 

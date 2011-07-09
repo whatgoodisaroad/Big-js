@@ -22,6 +22,19 @@ test("lex(src)", 2, function() {
     deepEqual(result, expect, "Lex correctly parses small negative integer.");
 });
 
+test("compare(bl, br)", function() {
+    var cmp;
+    
+    var a = new Big("00123.456");
+    var a_orig = new Big("00123.456");
+    var b = new Big("123.45600");
+    var b_orig = new Big("123.45600");
+    compare(a, b);
+    
+    deepEqual(a, a_orig, "Compare does not change first argument");
+    deepEqual(b, b_orig, "Compare does not change second argument");
+});
+
 test("compareMantissae(m1, m2)", function() {
     var m1, m2, expect, result;
     

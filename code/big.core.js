@@ -30,9 +30,12 @@ var zero = new Big(POSITIVE, 1, []);
 // Do comparison on two bigs, returns a comparison constant:
 function compare(bl, br) {
     
+    bl = bl.clone();
+    br = br.clone();
+    
     if (bl.sign != br.sign) {
-        if (bl.sign == POSITIVE)                { return GT; }
-        else /* (bl.sign == NEGATIVE) */        { return LT; }
+        if (bl.sign == POSITIVE)                    { return GT; }
+        else /* (bl.sign == NEGATIVE) */            { return LT; }
     }
     
     else if (bl.exponent != br.exponent) {

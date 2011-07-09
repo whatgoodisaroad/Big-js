@@ -21,6 +21,11 @@ test("subtract(l, r)", 0, function() {
     result = normalize(subtract(l, r));
     deepEqual(result, expected, "subtract correctly subtracts real from real");
     
+    l = new Big("8.6");
+    r = new Big("8.2");
+    expected = new Big("0.4");
+    result = normalize(subtract(l, r));
+    deepEqual(result, expected, "subtract correctly subtracts near reals");
 });
 
 test("subtractMantissae(m1, m2)", 0, function() {
@@ -37,4 +42,10 @@ test("subtractMantissae(m1, m2)", 0, function() {
     expected = [ 4, 8 ];
     result = subtractMantissae(m1, m2);
     deepEqual(result, expected, "subtractMantissae correctly subtracts simple mantissae with carry");
+    
+    m1 = [ 8, 6 ];
+    m2 = [ 8, 2 ];
+    expected = [ 0, 4 ];
+    result = subtractMantissae(m1, m2);
+    deepEqual(result, expected, "subtractMantissae correctly subtracts near mantissae");
 });

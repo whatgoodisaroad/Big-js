@@ -34,7 +34,7 @@ function subtract(l, r) {
     // Subtraction with inequal signs is reducible to addition.
     else /*(l.sign != r.sign)*/ {
         if (l.sign == POSITIVE)         { return add(l, r); }
-        else /*(l.sign == NEGATIVE)*/   { return negate(add(r, l)); }
+        else /*(l.sign == NEGATIVE)*/   { return negate(add(l, r)); }
     }
 }
 
@@ -45,8 +45,11 @@ function subtractMantissae(m1, m2) {
     if (m1.length == 0) { return []; }
 
     var 
-        i1 = init(m1), i2 = init(m2),
-        l1 = last(m1), l2 = last(m2);
+        i1 = init(m1), 
+        i2 = init(m2),
+
+        l1 = last(m1), 
+        l2 = last(m2);
         
     if (l1 < l2) {
         return subtractMantissae(borrowFromMantissa(i1), i2).concat([ l1 + 10 - l2 ]);
