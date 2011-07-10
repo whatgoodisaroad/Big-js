@@ -2,9 +2,9 @@
 function multiply(l, r) {
     var 
         same = preProcess(l, r),
-        n = same.l.mantissa.length;
+        n = same.l.mantissa.length,
         result = repeat(2 * n - 1, 0);
-    
+        
     for (var ridx = n - 1; ridx >= 0; --ridx) {
         for (var lidx = n - 1; lidx >= 0; --lidx) {
             result[ridx + lidx] += (

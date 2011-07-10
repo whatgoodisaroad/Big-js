@@ -30,7 +30,6 @@ Big = function(src) {
         this.sign = arguments[0];
         this.exponent = arguments[1];
         this.mantissa = arguments[2];
-        this.expr = arguments[3];
         this.expr = this.toString();
     }
 };

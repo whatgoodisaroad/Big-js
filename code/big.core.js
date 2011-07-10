@@ -125,7 +125,10 @@ function trimR(m) {
 function take(len, m) { return m.slice(0, len); }
 
 // Drop first len elements of m:
-function drop(len, m) { return m.slice(len); }
+function drop(len, m) { 
+    if (len < 1)    { return m.slice(); }
+    else            { return m.slice(len); }
+}
 
 // The final element of m:
 function last(m) { return m[m.length - 1]; }
@@ -184,15 +187,24 @@ function stringToMantissa(sz) {
 // Joins a mantissa into a string of digits:
 function mantissaToString(m) { return m.join(""); }
 
+function numberOfLeadingZeroes(m) {
+    var 
+        match = m.join("").match(/^(0+)[1-9]/);
+        
+    return match ?
+        match[1].length :
+        0;
+}
+
 // Normalize the big until the mantissa has no leading zeroes and adjust the radix:
 function normalize(b) {
+    var lz = numberOfLeadingZeroes(b.mantissa);
+    
     if (!b.mantissa.length)         { return new Big(b.sign, b.exponent, []); }
-    else if (b.mantissa[0] == 0)    { return normalize(
-                                            new Big(
-                                                b.sign, 
-                                                b.exponent - 1, 
-                                                b.mantissa.slice(1)
-                                            )
+    else if (lz)                    { return new Big(
+                                            b.sign, 
+                                            b.exponent - lz, 
+                                            b.mantissa.slice(lz)
                                         ); 
                                     }
     else                            { return b; }
