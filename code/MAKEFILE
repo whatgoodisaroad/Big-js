@@ -18,6 +18,7 @@ big: header
 	@ cat big.core.js >> $(output_file)
 	@ cat big.add.js >> $(output_file)
 	@ cat big.subtract.js >> $(output_file)
+	@ cat big.multiply.js >> $(output_file)
 	@ cat big.close_closure.js >> $(output_file)
 	
 big_no_closure:
@@ -29,5 +30,6 @@ big_no_closure:
 	@ cat big.core.js >> $(output_file)
 	@ cat big.add.js >> $(output_file)
 	@ cat big.subtract.js >> $(output_file)
+	@ cat big.multiply.js >> $(output_file)
 
 all: big

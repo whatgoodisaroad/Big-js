@@ -11,11 +11,11 @@ var test = {
     
     pass:function(expr, expected, result) {
         ++this.pc;
-        term.blue("expr:" + expr + "\toracle:" + expected + "\tbig:" + result);
+        term.blue("PASSED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
     },
     fail:function(expr, expected, result) {
         ++this.fc
-        term.yellow("expr:" + expr + "\toracle:" + expected + "\tbig:" + result);
+        term.yellow("FAILED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
     },
     
     percentage:function() {
@@ -66,6 +66,24 @@ function oracle(expr, type) {
     }
 }
 
+function randB() {
+    return new Big(random());
+    
+    var 
+        sign = Math.random() > 0.5 ? Big.POSITIVE : Big.NEGATIVE,
+        exponent = Math.floor(Math.random() * 10 - 20),
+        length = Math.floor(Math.random() * (partLength - 1) + 1),
+        mantissa = new Array(length);
+        
+    mantissa = map(function(_) { return Math.floor(Math.random() * 9); }, mantissa);
+        
+    return new Big(
+        sign,
+        exponent,
+        mantissa
+    );   
+};
+
 function random() {
     var 
         wl = Math.floor(Math.random() * (partLength - 2) + 1),
@@ -91,8 +109,8 @@ function random() {
 
 function addTest(l, r) {
     var 
-        bl = new Big(l),
-        br = new Big(r),
+        bl = l,
+        br = r,
         expression = "(" + l + ") + (" + r + ")"
         expected = oracle(expression, "number"),
         result = bl.plus(br);
@@ -106,8 +124,8 @@ function addTest(l, r) {
 
 function subtractionTest(l, r) {
     var 
-        bl = new Big(l),
-        br = new Big(r),
+        bl = l,
+        br = r,
         expression = "(" + l + ") - (" + r + ")",
         expected = oracle(expression, "number"),
         result = bl.minus(br);
@@ -119,9 +137,30 @@ function subtractionTest(l, r) {
     }
 }
 
+function multiplicationTest(l, r) {
+    var 
+        bl = l,
+        br = r,
+        expression = "(" + l + ") * (" + r + ")",
+        expected = oracle(expression, "number"),
+        result = bl.times(br);
+    if (expected == result + "") {
+        test.pass(expression, expected, result);
+    }
+    else {
+        test.fail(expression, expected, result);
+    }
+}
+
+
+var b1, b2;
 for (var idx = 0; idx < numtests; ++idx) {
-    addTest(random(), random());
-    subtractionTest(random(), random());
+    b1 = randB();
+    b2 = randB();
+    
+    addTest(b1, b2);
+    subtractionTest(b1, b2);
+    multiplicationTest(b1, b2);
 }
 
 print("\n");

@@ -246,6 +246,11 @@ function sameLength(l, r) {
                             }
 }
 
+function preProcess(l, r) {
+    var same = sameExponent(l, r);
+    return sameLength(same.l, same.r);
+}
+
 function negate(b) {
     return new Big(
         !b.sign,
