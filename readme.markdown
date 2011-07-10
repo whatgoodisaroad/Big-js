@@ -3,12 +3,12 @@
        / _  |_/ // (_ /_/ // /_\ \  
       /____//___/\___/(_)___//___/  
                               
-===================================
+***
 
 Big.js
 An Arbitrary Precision Math Library for JavaScript
 
-==Overview==
+# Overview
 
 Big.js provides a class definition (Big) to handle numbers of any precision and
 perform mathematical operations on them within JavaScript. Create a "Big" 
@@ -20,7 +20,7 @@ OR:
 
     Big.parse("567.890"); // --> [Object]
 
-==Method Support==
+# Method Support
 
 Version 0.7.*:
     lessThan, lessThanOrEqualTo, greaterThan, greaterThanOrEqualTo, equals
@@ -28,7 +28,7 @@ Version 0.7.*:
 Version 0.8.*:
     plus, minus, negate, clone
 
-==Runing Unit Tests==
+# Runing Tests
 
 The unit test suite is a stratified-randomized differential tester which runs
 in UNIX environments and is designed for the VT100 shell (for colors). It has
