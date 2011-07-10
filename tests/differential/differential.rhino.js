@@ -107,6 +107,36 @@ function random() {
     return res;
 }
 
+function greaterThanTest(l, r) {
+    var 
+        bl = l,
+        br = r,
+        expression = "(" + l + ") > (" + r + ")"
+        expected = oracle(expression, "boolean"),
+        result = bl.greaterThan(br);
+    if (expected == result) {
+        test.pass(expression, expected, result);
+    }
+    else {
+        test.fail(expression, expected, result);
+    }
+}
+
+function lessThanTest(l, r) {
+    var 
+        bl = l,
+        br = r,
+        expression = "(" + l + ") < (" + r + ")"
+        expected = oracle(expression, "boolean"),
+        result = bl.lessThan(br);
+    if (expected == result) {
+        test.pass(expression, expected, result);
+    }
+    else {
+        test.fail(expression, expected, result);
+    }
+}
+
 function addTest(l, r) {
     var 
         bl = l,
@@ -158,6 +188,8 @@ for (var idx = 0; idx < numtests; ++idx) {
     b1 = randB();
     b2 = randB();
     
+    greaterThanTest(b1, b2);
+    lessThanTest(b1, b2);
     addTest(b1, b2);
     subtractionTest(b1, b2);
     multiplicationTest(b1, b2);
