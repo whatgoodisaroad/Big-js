@@ -44,6 +44,14 @@ a small list of system requirements.
         around an infinite precision math library used here as an "oracle" for 
         the differential testing.
 
-To run the unit tests, execute the shell script:
+To run the unit tests, first navigate to the root of the project and run:
 
-    ./run.tests.sh
+    make tests
+    
+Then, navigate to tests/differential and run:
+
+    ./differential.sh
+
+You can specify how many tests to run by adding an argument:
+    
+    ./differential.sh 200
