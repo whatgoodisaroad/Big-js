@@ -14,19 +14,7 @@ function multiply(l, r) {
         }
     }
     
-    var term, ones, carry;
-    
-    for (var idx = result.length - 1; idx > 0; --idx) {
-        term = result[idx];
-        
-        if (term > 9) {
-            ones = term % 10;
-            carry = (term - ones) / 10;
-            
-            result[idx - 1] += carry;
-            result[idx] = ones;
-        }
-    }
+    result = applyPolynomialCarry(result);
     
     return new Big(
         l.sign == r.sign ? 
@@ -39,3 +27,24 @@ function multiply(l, r) {
     );
 }
 
+function applyPolynomialCarry(poly) {
+    var term, ones, carry;
+    
+    poly = poly.slice();
+    
+    for (var idx = poly.length - 1; idx > 0; --idx) {
+        term = poly[idx];
+        
+        if (term > 9) {
+            ones = term % 10;
+            carry = (term - ones) / 10;
+            
+            poly[idx - 1] += carry;
+            poly[idx] = ones;
+        }
+    }
+    
+    return poly;
+}
+
+//

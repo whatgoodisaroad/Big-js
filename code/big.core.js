@@ -120,6 +120,17 @@ function trimR(m) {
     );
 }
 
+function cons(elem, arr) {
+    return [elem].concat(arr);
+}
+
+function uncons(arr) {
+    return {
+        x:arr[0],
+        xs:arr.slice(1)
+    };
+}
+
 
 // Take first len elements of m:
 function take(len, m) { return m.slice(0, len); }
@@ -186,6 +197,15 @@ function stringToMantissa(sz) {
 
 // Joins a mantissa into a string of digits:
 function mantissaToString(m) { return m.join(""); }
+
+function mantissaToInt(m) { return parseInt(mantissaToString(m), 10); }
+
+function intToMantissa(n) { 
+    return map(
+        function(d) { return parseInt(d, 0); },
+        n.toString()
+    );
+}
 
 function numberOfLeadingZeroes(m) {
     var 

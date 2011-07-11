@@ -47,7 +47,9 @@ Big.prototype.times = function(right) {
     return normalize(multiply(this, right));
 };
 
-Big.prototype.over = function(divisor) { };
+Big.prototype.over = function(divisor) {
+    return normalize(divide(this, divisor));
+};
 
 Big.prototype.isZero = function() { };
 
