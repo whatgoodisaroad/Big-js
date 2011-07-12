@@ -14,8 +14,8 @@ function lex(src) {
                 POSITIVE,
                 
             hasDecimal ? 
-                withoutSign.indexOf(".") :
-                withoutSign.length,
+                withoutSign.indexOf(".") - 1 :
+                withoutSign.length - 1,
                 
             stringToMantissa(
                 withoutSign.replace(".", "")
@@ -84,12 +84,12 @@ function mantissaIsZero(m) {
 
 // Returns the whole component of a big number in a string of base 10.
 function wholeString(b) {
-    if (b.exponent <= 0) { return "0"; }
+    if (b.exponent < 0) { return "0"; }
     else {
         return padR(
             b.exponent, 
             take(
-                b.exponent, 
+                b.exponent + 1, 
                 b.mantissa
             )
         ).join("");
@@ -98,7 +98,7 @@ function wholeString(b) {
 
 // Returns the fractional component of a big number in a string of base 10.
 function fractionalString(b) {
-    var frac = trimR(drop(b.exponent, b.mantissa));
+    var frac = trimR(drop(b.exponent + 1, b.mantissa));
     
     if (!frac.length)   { return ""; }
     else                { return "." + 
@@ -202,7 +202,7 @@ function mantissaToInt(m) { return parseInt(mantissaToString(m), 10); }
 
 function intToMantissa(n) { 
     return map(
-        function(d) { return parseInt(d, 0); },
+        function(d) { return parseInt(d, 10); },
         n.toString()
     );
 }

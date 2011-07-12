@@ -42,3 +42,5 @@ Big.parse = function(str) {
     return new Big(str);
 };
 
+Big.precision = 20;
+

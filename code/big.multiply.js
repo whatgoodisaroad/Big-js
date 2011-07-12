@@ -21,7 +21,7 @@ function multiply(l, r) {
             POSITIVE :
             NEGATIVE,
             
-        2 * same.l.exponent - 1,
+        2 * same.l.exponent,
         
         result
     );

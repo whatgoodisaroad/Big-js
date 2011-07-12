@@ -44,6 +44,8 @@ term.normal("Loading Big.no_closure.js");
 load("Big.no_closure.js");
 term.normal("Loaded.");
 
+term.normal("Doing " + numtests + " test(s)...");
+
 function oracle(expr, type) {
     try {
         var opts = { output:"" };
@@ -58,6 +60,8 @@ function oracle(expr, type) {
             return !!(opts.output * 1);
         }
         else if (type == "number") {
+            opts.output = opts.output.replace(/^[~]/, "");
+        
             return new Big(opts.output).toString();
         }
     }
@@ -182,6 +186,20 @@ function multiplicationTest(l, r) {
     }
 }
 
+function divisionTest(l, r) {
+    var 
+        bl = l,
+        br = r,
+        expression = "(" + l + ") / (" + r + ")",
+        expected = oracle(expression, "number"),
+        result = bl.over(br);
+    if (expected == result + "") {
+        test.pass(expression, expected, result);
+    }
+    else {
+        test.fail(expression, expected, result);
+    }
+}
 
 var b1, b2;
 for (var idx = 0; idx < numtests; ++idx) {
@@ -193,6 +211,7 @@ for (var idx = 0; idx < numtests; ++idx) {
     addTest(b1, b2);
     subtractionTest(b1, b2);
     multiplicationTest(b1, b2);
+    divisionTest(b1, b2);
 }
 
 print("\n");

@@ -6,7 +6,7 @@ test("lex(src)", 2, function() {
     src = "123.456";
     expect = new Big(
         POSITIVE, 
-        3,
+        2,
         [ 1, 2, 3, 4, 5, 6 ]
     );
     result = lex(src);
@@ -15,7 +15,7 @@ test("lex(src)", 2, function() {
     src = "-3";
     expect = new Big(
         NEGATIVE,
-        1,
+        0,
         [ 3 ]
     );
     result = lex(src);
