@@ -22,7 +22,7 @@ big: header
 	@ cat big.divide.js >> $(output_file)
 	@ cat big.close_closure.js >> $(output_file)
 	
-big_no_closure:
+big_no_closure: header
 	@ echo "Building Big..."
 	@ cat full_header.js > $(output_file)
 	@ cat big.define.js >> $(output_file)
