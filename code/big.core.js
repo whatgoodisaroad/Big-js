@@ -216,16 +216,34 @@ function numberOfLeadingZeroes(m) {
         0;
 }
 
+function numberOfTrailingZeroes(m) {
+    var 
+        match = m.join("").match(/(0+)$/);
+        
+    return match ?
+        match[1].length :
+        0;
+}
+
 // Normalize the big until the mantissa has no leading zeroes and adjust the radix:
 function normalize(b) {
-    var lz = numberOfLeadingZeroes(b.mantissa);
+    var 
+        lz = numberOfLeadingZeroes(b.mantissa),
+        tz = numberOfTrailingZeroes(b.mantissa);
     
     if (!b.mantissa.length)         { return new Big(b.sign, b.exponent, []); }
     else if (lz)                    { return new Big(
                                             b.sign, 
                                             b.exponent - lz, 
-                                            b.mantissa.slice(lz)
+                                            trimR(b.mantissa.slice(lz))
                                         ); 
+                                    }
+                                    
+    else if (tz)                   { return new Big(
+                                            b.sign,
+                                            b.exponent,
+                                            trimR(b.mantissa)
+                                        );
                                     }
     else                            { return b; }
 }

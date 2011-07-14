@@ -1,6 +1,8 @@
 module("divide");
 
 test("divide(l, r)", function() {
+    Big.precision = 18;
+    
     var l, r, expected, result;
     
     l = new Big(-28.56);

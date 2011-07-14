@@ -36,8 +36,7 @@ function div_prime(dividend, divisor, flags) {
             div_rec(
                 uncons_dividend.xs, 
                 divisor, 
-                [ uncons_dividend.x ],
-                false,
+                new Big(uncons_dividend.x),
                 0,
                 flags
             )
@@ -45,29 +44,22 @@ function div_prime(dividend, divisor, flags) {
     }
 }
 
-function div_rec(num_m, den_bn, rem_m, endgame, depth, flags) {
-    console.log(arguments);
-
+function div_rec(num_m, den_bn, rem_bn, depth, flags) {
     if (depth > Big.precision) {
         return [];
     }
     
-    if (endgame && mantissaIsZero(rem_m)) {
+    if (!num_m.length && mantissaIsZero(rem_bn.mantissa)) {
         return [];
     }
     
     var 
         num_x, 
-        num_xs, 
-        
-        rem_s = mantissaToString(rem_m),
-        rem_bn = new Big(rem_s);
+        num_xs;
         
     if (!num_m.length) {
         num_x = 0;
         num_xs = [];
-        
-        endgame = true;
     }
     
     else {
@@ -82,7 +74,7 @@ function div_rec(num_m, den_bn, rem_m, endgame, depth, flags) {
     // for this digit.
 
     if (rem_bn.lessThan(den_bn)) {
-
+    
         return cons(
             0,
             div_rec(
@@ -92,7 +84,6 @@ function div_rec(num_m, den_bn, rem_m, endgame, depth, flags) {
                     rem_bn, 
                     num_x
                 ),
-                endgame,
                 depth + 1,
                 flags
             )
@@ -100,26 +91,21 @@ function div_rec(num_m, den_bn, rem_m, endgame, depth, flags) {
     }
     
     else {
+    
+        // q_hat estimation inspired from Knuth sect. 4.3.1 page 271:
         var 
-            // From Knuth sect. 4.3.1:
+            rem_tm = trimL(rem_bn.mantissa),
+            knu_u = (
+                (rem_tm[0] * 10) +
+                (rem_tm.length > 1 ? 
+                    rem_tm[1] : 
+                    0
+                )
+            ),
+            knu_v = trimL(den_bn.mantissa)[0],
             q_hat = Math.min(
                 Math.floor(
-                    mantissaToInt(
-                        take(
-                            2, 
-                            trimL(
-                                rem_m
-                            )
-                        )
-                    ) /
-                    mantissaToInt(
-                        take(
-                            1, 
-                            trimL(
-                                den_bn.mantissa
-                            )
-                        )
-                    )
+                    knu_u / knu_v
                 ),
                 9
             ),
@@ -147,7 +133,6 @@ function div_rec(num_m, den_bn, rem_m, endgame, depth, flags) {
                     rem_bn, 
                     num_x
                 ),
-                endgame,
                 depth + 1,
                 flags
             )
@@ -158,6 +143,5 @@ function div_rec(num_m, den_bn, rem_m, endgame, depth, flags) {
 function shiftIn(bn, digit) {
     return bn
         .times(new Big(10))
-        .plus(new Big(digit))
-        .mantissa
+        .plus(new Big(digit));
 }
