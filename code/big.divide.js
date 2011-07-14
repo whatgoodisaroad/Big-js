@@ -5,6 +5,8 @@ function divide(left, right) {
 }
 
 function longDivide(dividend, divisor) {
+    var flags = { };
+    
     return new Big(
         dividend.sign == divisor.sign ?
             POSITIVE :
@@ -12,119 +14,150 @@ function longDivide(dividend, divisor) {
             
         dividend.exponent - divisor.exponent + 1,
         
-        divideMantissae(
-            dividend.mantissa,
-            divisor.mantissa
+        div_prime(
+            dividend, 
+            divisor,
+            flags
         )
     );
 }
 
-function divideMantissae(m1, m2) {
-    if (mantissaIsZero(m1)) { return []; }
+
+function div_prime(dividend, divisor, flags) {
+    if (mantissaIsZero(dividend.mantissa)) { return []; }
     
     // TODO: Handle properly:
-    else if (mantissaIsZero(m2)) { throw "Division by zero"; }
+    else if (mantissaIsZero(divisor.mantissa)) { throw "Division by zero"; }
     
     else { 
-        var ucons_m1 = uncons(m1);
+        var uncons_dividend = uncons(dividend.mantissa);
         
         return (
-            div_m(
-                ucons_m1.xs, 
-                m2, 
-                [ ucons_m1.x ],
+            div_rec(
+                uncons_dividend.xs, 
+                divisor, 
+                [ uncons_dividend.x ],
                 false,
-                0
+                0,
+                flags
             )
         );
     }
 }
 
-function div_m(num, div, rem, endgame, depth) {
-    
+function div_rec(num_m, den_bn, rem_m, endgame, depth, flags) {
+    console.log(arguments);
+
     if (depth > Big.precision) {
         return [];
     }
     
-    if (endgame && mantissaIsZero(rem)) {
+    if (endgame && mantissaIsZero(rem_m)) {
         return [];
     }
     
     var 
-        rem_i = mantissaToInt(rem),
-        div_i = mantissaToInt(div),
-    
         num_x, 
-        num_xs;
+        num_xs, 
         
-        if (!num.length) {
-            num_x = 0;
-            num_xs = [];
-            
-            endgame = true;
-        }
+        rem_s = mantissaToString(rem_m),
+        rem_bn = new Big(rem_s);
         
-        else {
-            var uncons_num = uncons(num);
-            
-            num_x = uncons_num.x;
-            num_xs = uncons_num.xs;
-        }
+    if (!num_m.length) {
+        num_x = 0;
+        num_xs = [];
+        
+        endgame = true;
+    }
     
+    else {
+        var uncons_num = uncons(num_m);
+        
+        num_x = uncons_num.x;
+        num_xs = uncons_num.xs;
+    }
+        
     // If the remainder is smaller than the divisor,
     // bring in another digit and yeild a zero-quotient
     // for this digit.
-    if (rem.length < div.length ||
-        rem_i < div_i) {
+
+    if (rem_bn.lessThan(den_bn)) {
 
         return cons(
             0,
-            div_m(
+            div_rec(
                 num_xs,
-                div,
-                rem.concat([ num_x ]),
+                den_bn,
+                shiftIn(
+                    rem_bn, 
+                    num_x
+                ),
                 endgame,
-                depth + 1
+                depth + 1,
+                flags
             )
         );
     }
     
     else {
         var 
-            // TODO: add q_hat confirm logic.
-            q_hat = Math.floor(rem_i / div_i);
-            
             // From Knuth sect. 4.3.1:
-            // q_hat = Math.min(
-                // Math.floor(
-                    // mantissaToInt(take(2, rem)) /
-                    // mantissaToInt(take(1, div))
-                // ),
-                // 9
-            // );
+            q_hat = Math.min(
+                Math.floor(
+                    mantissaToInt(
+                        take(
+                            2, 
+                            trimL(
+                                rem_m
+                            )
+                        )
+                    ) /
+                    mantissaToInt(
+                        take(
+                            1, 
+                            trimL(
+                                den_bn.mantissa
+                            )
+                        )
+                    )
+                ),
+                9
+            ),
             
-        while ((q_hat - 1) * div_i > rem_i) {
-            --q_hat;
-        }
+            prod_bn;
         
-        var 
-            cipher = div_i * q_hat,
-            cipher_m = intToMantissa(cipher);
-            
-        rem = intToMantissa(
-            rem_i - cipher
-        );
+        // Multiply step:
+        do {
+            prod_bn = den_bn
+                .times(new Big(q_hat--));
+        }
+        while (prod_bn.greaterThan(rem_bn));
+        ++q_hat;
+        
+        // Subtract step:
+        rem_bn = rem_bn
+            .minus(prod_bn);
         
         return cons(
             q_hat,
-            div_m(
+            div_rec(
                 num_xs,
-                div,
-                rem.concat([ num_x ]),
+                den_bn,
+                shiftIn(
+                    rem_bn, 
+                    num_x
+                ),
                 endgame,
-                depth + 1
+                depth + 1,
+                flags
             )
         );
     }
 }
 
+function shiftIn(bn, digit) {
+    return bn
+        .times(new Big(10))
+        .plus(new Big(digit))
+        .mantissa
+}
