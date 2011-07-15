@@ -2,7 +2,14 @@ var term = {
     print:function(sz) { print(sz); },
     blue:function(sz) { print("\033[22;34m" + sz); },
     normal:function(sz) { print("\033[22;37m" + sz); },
+    red:function(sz) { print("\033[01;31m" + sz); },
     yellow:function(sz) { print("\033[01;33m" + sz); }
+};
+
+var console = {
+    log:function(msg) {
+        //term.yellow(msg);
+    }
 };
 
 var test = {
@@ -15,7 +22,7 @@ var test = {
     },
     fail:function(expr, expected, result) {
         ++this.fc
-        term.yellow("FAILED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
+        term.red("FAILED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
     },
     
     percentage:function() {

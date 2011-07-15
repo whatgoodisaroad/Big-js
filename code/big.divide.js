@@ -44,7 +44,7 @@ function div_prime(dividend, divisor, flags) {
     }
 }
 
-function div_rec(num_m, den_bn, rem_bn, depth, flags) {
+function div_rec(num_m, den_bn, rem_bn, depth, flags) { console.log(arguments);
     if (depth > Big.precision) {
         return [];
     }
@@ -74,7 +74,7 @@ function div_rec(num_m, den_bn, rem_bn, depth, flags) {
     // for this digit.
 
     if (rem_bn.lessThan(den_bn)) {
-    
+        console.log(0);
         return cons(
             0,
             div_rec(
@@ -91,7 +91,7 @@ function div_rec(num_m, den_bn, rem_bn, depth, flags) {
     }
     
     else {
-    
+        
         // q_hat estimation inspired from Knuth sect. 4.3.1 page 271:
         var 
             rem_tm = trimL(rem_bn.mantissa),
@@ -119,6 +119,8 @@ function div_rec(num_m, den_bn, rem_bn, depth, flags) {
         }
         while (prod_bn.greaterThan(rem_bn));
         ++q_hat;
+        
+        console.log(q_hat);
         
         // Subtract step:
         rem_bn = rem_bn

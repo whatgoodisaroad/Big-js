@@ -9,5 +9,12 @@ test("multiply(l, r)", function() {
     r = new Big("0.01");
     expected = new Big("0.01");
     result = normalize(multiply(l, r));
-    deepEqual(result + "", expected + "", "add correctly finds product of whole with small real");
+    deepEqual(result + "", expected + "", "multiply correctly finds product of whole with small real");
+    
+    l = new Big("5.05");
+    r = new Big("8.42");
+    expected = new Big("42.521");
+    result = normalize(multiply(l, r));
+    deepEqual(result + "", expected + "", "multiply correctly finds product of reals");
+    
 });

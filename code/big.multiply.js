@@ -3,11 +3,11 @@ function multiply(l, r) {
     var 
         same = preProcess(l, r),
         n = same.l.mantissa.length,
-        result = repeat(2 * n - 1, 0);
+        result = repeat(2 * n, 0);
         
     for (var ridx = n - 1; ridx >= 0; --ridx) {
         for (var lidx = n - 1; lidx >= 0; --lidx) {
-            result[ridx + lidx] += (
+            result[ridx + lidx + 1] += (
                 same.r.mantissa[ridx] * 
                 same.l.mantissa[lidx]
             );
@@ -21,7 +21,7 @@ function multiply(l, r) {
             POSITIVE :
             NEGATIVE,
             
-        2 * same.l.exponent,
+        2 * same.l.exponent + 1,
         
         result
     );
