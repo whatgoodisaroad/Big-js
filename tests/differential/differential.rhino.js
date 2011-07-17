@@ -213,12 +213,12 @@ for (var idx = 0; idx < numtests; ++idx) {
     b1 = randB();
     b2 = randB();
     
-    greaterThanTest(b1, b2);
-    lessThanTest(b1, b2);
-    addTest(b1, b2);
+    //greaterThanTest(b1, b2);
+    //lessThanTest(b1, b2);
+    //addTest(b1, b2);
     subtractionTest(b1, b2);
-    multiplicationTest(b1, b2);
-    divisionTest(b1, b2);
+    //multiplicationTest(b1, b2);
+    //divisionTest(b1, b2);
 }
 
 print("\n");

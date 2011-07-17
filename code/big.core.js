@@ -98,12 +98,38 @@ function wholeString(b) {
 
 // Returns the fractional component of a big number in a string of base 10.
 function fractionalString(b) {
-    var frac = trimR(drop(b.exponent + 1, b.mantissa));
+    // At least part of the significand is whole:
+    if (b.exponent >= 0) {
+        
+        // If the entire significand is whole:
+        if (b.mantissa.length == b.exponent) {
+            return "";
+        }
+        
+        // Else at least part of the significand is fractional:
+        else {
+            var frac = trimR(
+                drop(
+                    b.exponent + 1, 
+                    b.mantissa
+                )
+            );
+        
+            return (
+                "." + 
+                frac.join("")
+            );
+        }
+    }
     
-    if (!frac.length)   { return ""; }
-    else                { return "." + 
-                            repeat(-b.exponent, "0").join("") + 
-                            frac.join(""); }
+    // The exponent is negative. At least some left padding is needed:
+    else {
+        return (
+            "." + 
+            repeat(-b.exponent - 1, "0").join("") + 
+            b.mantissa.join("")
+        );
+    }
 }
 
 // Trim zeroes from the left:
@@ -120,7 +146,7 @@ function trimR(m) {
     );
 }
 
-function cons(elem, arr) {
+function cons(elem, arr) { 
     return [elem].concat(arr);
 }
 
@@ -225,7 +251,8 @@ function numberOfTrailingZeroes(m) {
         0;
 }
 
-// Normalize the big until the mantissa has no leading zeroes and adjust the radix:
+// Normalize the big until the mantissa has no leading 
+// or trailing zeroes and adjust the radix:
 function normalize(b) {
     var 
         lz = numberOfLeadingZeroes(b.mantissa),
@@ -235,7 +262,7 @@ function normalize(b) {
     else if (lz)                    { return new Big(
                                             b.sign, 
                                             b.exponent - lz, 
-                                            trimR(b.mantissa.slice(lz))
+                                            trimR(drop(lz, b.mantissa))
                                         ); 
                                     }
                                     
@@ -245,7 +272,7 @@ function normalize(b) {
                                             trimR(b.mantissa)
                                         );
                                     }
-    else                            { return b; }
+    else                            { return b }
 }
 
 // Abnormalize the big by adding leading zeroes until the given exponent is met:

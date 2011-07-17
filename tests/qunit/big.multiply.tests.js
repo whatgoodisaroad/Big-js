@@ -16,5 +16,10 @@ test("multiply(l, r)", function() {
     expected = new Big("42.521");
     result = normalize(multiply(l, r));
     deepEqual(result + "", expected + "", "multiply correctly finds product of reals");
-    
+   
+    l = new Big(4);
+    r = new Big("8.1865177");
+    expected = new Big("32.7460708");
+    result = normalize(multiply(l, r));
+    deepEqual(result + "", expected + "", "multiply correctly finds product of real with integer");
 });
