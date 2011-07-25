@@ -33,7 +33,8 @@ Big = function(src) {
         //this.expr = this.toString();
         
         // TODO: convert
-        this.expr = "BY PARTS";
+        //this.expr = "BY PARTS";
+        this.expr = this.toString();
     }
 };
 

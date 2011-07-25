@@ -12,7 +12,7 @@ function longDivide(dividend, divisor) {
             POSITIVE :
             NEGATIVE,
             
-        dividend.exponent - divisor.exponent + 1,
+        dividend.exponent - divisor.exponent,
         
         div_prime(
             dividend, 
@@ -35,7 +35,7 @@ function div_prime(dividend, divisor, flags) {
         return (
             div_rec(
                 uncons_dividend.xs, 
-                divisor, 
+                abs(divisor), 
                 new Big(uncons_dividend.x),
                 0,
                 flags
@@ -76,7 +76,7 @@ function div_rec(num_m, den_bn, rem_bn, depth, flags) {
     // bring in another digit and yeild a zero-quotient
     // for this digit.
 
-    if (rem_bn.lessThan(den_bn)) { 
+    if (false && rem_bn.lessThan(den_bn)) { 
     
         console.log("Less Case: ", rem_bn, den_bn);
         
@@ -104,6 +104,9 @@ function div_rec(num_m, den_bn, rem_bn, depth, flags) {
         
         console.log(
             "difference:",
+            rem_bn,
+            "-",
+            prod_bn,
             rem_bn.minus(prod_bn)
         );
         
@@ -130,7 +133,7 @@ function findQ_hat(rem_bn, den_bn) {
     for (var q = 9; q >= 0; --q) {
         prod_bn = den_bn.times(new Big(q));
         
-        if (prod_bn.lessThanOrEqualTo(rem_bn)) {
+        if (q == 0 || prod_bn.lessThanOrEqualTo(rem_bn)) {
             break;
         }
     }

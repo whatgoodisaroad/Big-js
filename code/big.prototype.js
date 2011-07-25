@@ -51,7 +51,7 @@ Big.prototype.over = function(divisor) {
     return normalize(divide(this, divisor));
 };
 
-Big.prototype.isZero = function() { };
+Big.prototype.isZero = function() { return mantissaIsZero(this.mantissa); };
 
 Big.prototype.clone = function() {
     return new Big(

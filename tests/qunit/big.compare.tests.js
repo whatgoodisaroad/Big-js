@@ -20,4 +20,10 @@ test("compare(bl, br)", function() {
     expect = true;
     result = compare(bl, br) == GT;
     equal(result, expect, "compare correctly finds smallest of two negative numbers");
+    
+    bl = new Big(0, [ 8, 2, 8, 6, 5, 5, 1, 7, 7 ], false); // new Big("8.28655177");
+    br = new Big(0, [ 8, 2, 4, 2, 8, 1, 4, 7 ], false); //new Big("8.2428147");
+    expect = false;
+    result = bl.lessThanOrEqualTo(br);
+    equal(result, expect, "Compare correctly finds less than or equal to bool.");
 });

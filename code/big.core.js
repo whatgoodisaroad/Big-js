@@ -25,7 +25,7 @@ function lex(src) {
 }
 
 // Central definition of zero
-var zero = new Big(POSITIVE, 1, []);
+var zero = new Big(POSITIVE, 0, []);
 
 // Do comparison on two bigs, returns a comparison constant:
 function compare(bl, br) {
@@ -87,7 +87,7 @@ function wholeString(b) {
     if (b.exponent < 0) { return "0"; }
     else {
         return padR(
-            b.exponent, 
+            b.exponent + 1, 
             take(
                 b.exponent + 1, 
                 b.mantissa
@@ -254,6 +254,8 @@ function numberOfTrailingZeroes(m) {
 // Normalize the big until the mantissa has no leading 
 // or trailing zeroes and adjust the radix:
 function normalize(b) {
+    if (mantissaIsZero(b.mantissa)) { return zero; }
+
     var 
         lz = numberOfLeadingZeroes(b.mantissa),
         tz = numberOfTrailingZeroes(b.mantissa);
@@ -336,4 +338,11 @@ function negate(b) {
     );
 }
 
+function abs(b) {
+    return new Big(
+        POSITIVE,
+        b.exponent,
+        b.mantissa
+    );
+}
 

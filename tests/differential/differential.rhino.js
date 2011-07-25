@@ -43,7 +43,7 @@ var numtests = (arguments.length > 0 && /^\d+$/.test(arguments[0])) ?
     parseInt(arguments[0]) : 
     128;
 
-var partLength = 10;
+var partLength = 3;
     
 term.blue("**** differential.rhino.js ****");
 
@@ -216,9 +216,9 @@ for (var idx = 0; idx < numtests; ++idx) {
     //greaterThanTest(b1, b2);
     //lessThanTest(b1, b2);
     //addTest(b1, b2);
-    subtractionTest(b1, b2);
+    //subtractionTest(b1, b2);
     //multiplicationTest(b1, b2);
-    //divisionTest(b1, b2);
+    divisionTest(b1, b2);
 }
 
 print("\n");

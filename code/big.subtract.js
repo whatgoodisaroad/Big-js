@@ -1,4 +1,15 @@
 function subtract(l, r) {   
+    l = normalize(l);
+    r = normalize(r);
+    
+    if (l.isZero()) {
+        return negate(l);
+    }
+    
+    if (r.isZero()) {
+        return l.clone();
+    }
+    
     var cmp = compare(l, r);
         
     if (cmp == EQ) { return zero; }
