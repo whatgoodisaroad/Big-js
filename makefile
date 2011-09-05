@@ -3,8 +3,8 @@ big_no_closure:
 	@ rm -rf build
 	@ mkdir -p build
 	@ echo "Building big..."
-	@ cd code; make big_no_closure
-	@ mv ./code/Big.js ./build/Big.no_closure.js
+	@ cd lib; make big_no_closure
+	@ mv ./lib/Big.js ./build/Big.no_closure.js
 
 tests: big_no_closure
 	mv ./build/Big.no_closure.js ./tests
@@ -14,6 +14,6 @@ all:
 	@ rm -rf build
 	@ mkdir -p build
 	@ echo "Building big..."
-	@ cd code; make all
-	@ mv ./code/Big.js ./build
+	@ cd lib; make all
+	@ mv ./lib/Big.js ./build
    
