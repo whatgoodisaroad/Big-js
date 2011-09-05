@@ -18,7 +18,7 @@ var test = {
     
     pass:function(expr, expected, result) {
         ++this.pc;
-        term.blue("PASSED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
+        term.normal("PASSED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
     },
     fail:function(expr, expected, result) {
         ++this.fc
@@ -52,6 +52,10 @@ load("Big.no_closure.js");
 term.normal("Loaded.");
 
 term.normal("Doing " + numtests + " test(s)...");
+
+function equalAtPrecision(res, ora) {
+    return res == ora.substring(0, res.length);
+}
 
 function oracle(expr, type) {
     try {
@@ -200,7 +204,8 @@ function divisionTest(l, r) {
         expression = "(" + l + ") / (" + r + ")",
         expected = oracle(expression, "number"),
         result = bl.over(br);
-    if (expected == result + "") {
+    //if (expected == result + "") {
+    if (equalAtPrecision(result + "", expected)) {
         test.pass(expression, expected, result);
     }
     else {
@@ -213,11 +218,11 @@ for (var idx = 0; idx < numtests; ++idx) {
     b1 = randB();
     b2 = randB();
     
-    //greaterThanTest(b1, b2);
-    //lessThanTest(b1, b2);
-    //addTest(b1, b2);
-    //subtractionTest(b1, b2);
-    //multiplicationTest(b1, b2);
+    greaterThanTest(b1, b2);
+    lessThanTest(b1, b2);
+    addTest(b1, b2);
+    subtractionTest(b1, b2);
+    multiplicationTest(b1, b2);
     divisionTest(b1, b2);
 }
 
