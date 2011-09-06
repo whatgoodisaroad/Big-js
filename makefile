@@ -16,4 +16,9 @@ all:
 	@ echo "Building big..."
 	@ cd lib; make all
 	@ mv ./lib/Big.js ./build
-   
+	@ cp ./build/Big.js ./compiler
+	@ echo "Compiling big..."
+	@ cd compiler; java -jar compiler.jar --js=Big.js --js_output_file=Big.min.temp.js
+	@ cat ./lib/full_header.js > ./build/Big.min.js
+	@ cat ./compiler/Big.min.temp.js >> ./build/Big.min.js
+	@ rm ./compiler/Big.min.temp.js
