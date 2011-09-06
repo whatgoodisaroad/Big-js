@@ -12,17 +12,25 @@ var console = {
     }
 };
 
+function padr(src) {
+    var result = src;
+    while (result.length < 32) {
+        result = result + " ";
+    }
+    return result;
+}
+
 var test = {
     pc:0,
     fc:0,
     
     pass:function(expr, expected, result) {
         ++this.pc;
-        term.normal("PASSED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
+        term.normal("PASSED:\texpr:" + padr(expr) + "oracle:" + padr(expected) + "big:" + result);
     },
     fail:function(expr, expected, result) {
         ++this.fc
-        term.red("FAILED:\texpr:" + expr + "\toracle:" + expected + "\tbig:" + result);
+        term.red("FAILED:\texpr:" + padr(expr) + "oracle:" + padr(expected) + "big:" + result);
     },
     
     percentage:function() {
@@ -218,11 +226,11 @@ for (var idx = 0; idx < numtests; ++idx) {
     b1 = randB();
     b2 = randB();
     
-    greaterThanTest(b1, b2);
-    lessThanTest(b1, b2);
-    addTest(b1, b2);
-    subtractionTest(b1, b2);
-    multiplicationTest(b1, b2);
+    //greaterThanTest(b1, b2);
+    //lessThanTest(b1, b2);
+    //addTest(b1, b2);
+    //subtractionTest(b1, b2);
+    //multiplicationTest(b1, b2);
     divisionTest(b1, b2);
 }
 

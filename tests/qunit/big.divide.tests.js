@@ -28,7 +28,7 @@ test("divide(l, r)", function() {
     
     l = new Big(2.6);
     r = new Big(-2.85);
-    expected = new Big("-0.912280701754385964");
+    expected = new Big("-0.9122807017543859");
     result = normalize(divide(l, r));
     equal(result + "", expected + "", "divide correctly finds quotient reals");
     deepEqual(result.exponent, expected.exponent, "divide correctly finds quotient exponent");
