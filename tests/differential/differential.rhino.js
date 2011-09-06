@@ -14,7 +14,7 @@ var console = {
 
 function padr(src) {
     var result = src;
-    while (result.length < 32) {
+    while (result.length < 44) {
         result = result + " ";
     }
     return result;
@@ -51,7 +51,7 @@ var numtests = (arguments.length > 0 && /^\d+$/.test(arguments[0])) ?
     parseInt(arguments[0]) : 
     128;
 
-var partLength = 3;
+var partLength = 10;
     
 term.blue("**** differential.rhino.js ****");
 

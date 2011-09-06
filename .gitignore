@@ -1,3 +1,5 @@
 tests/Big.no_closure.js
 tests/differential/Big.no_closure.js
 lib/full_header.js
+compiler/Big.js
+compiler/Big.min.js
