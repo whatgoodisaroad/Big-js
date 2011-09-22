@@ -5,8 +5,27 @@
         return src.split(/\s/);
     };
     
+    Big.expression.tokenizeInfix = function(src) {
+        var 
+            rawTokens = src
+                .replace(/(\()|(\))|(\d+(\.\d*)?)|(\+)|(\-)|(\*)|(\/)/g, " $&")
+                .split(/\s/)
+                .slice(1),
+            result = [];
+            
+        while (rawTokens.length) {
+            var temp = rawTokens.shift();
+            
+            if (temp.length) {
+                result.push(temp);
+            }
+        }
+        
+        return result;
+    };
+    
     Big.expression.operatorPattern = /^[-+*\/]$/;
-    Big.expression.numberPattern = /^\d+$/;
+    Big.expression.numberPattern = /^\d+(\.\d*)?$/;
     
     Big.expression.evalRpn = function(src) {
         var 
@@ -59,7 +78,7 @@
     
     Big.expression.fromInfixToRpn = function(src) {
         var 
-            tokens = src.replace(/\(|\)|(\d+)|\W/g, " $&").split(/\s/).slice(1),
+            tokens = Big.expression.tokenizeInfix(src),
             token,
             opStack = [],
             result = [];
