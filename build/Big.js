@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////
 //  Big.js
-//  v0.9.0 (beta)
+//  v0.10.0 (beta)
 ///////////////////////////////////////////////////////////////
 //  http://github.com/whatgoodisaroad/Big-js
 //  By Wyatt Allen
 //  MIT Licensed
-//  2011-09-19 (Monday, 19 September 2011)
+//  2013-02-11 (Monday, 11 February 2013)
 ///////////////////////////////////////////////////////////////
 var Big;
 
@@ -164,8 +164,22 @@ function compare(bl, br) {
     bl = bl.clone();
     br = br.clone();
     
-    if (bl.sign != br.sign) {
-        if (bl.sign == POSITIVE)                    { return GT; }
+    if (bl.isZero() || br.isZero()) {
+        if (bl.isZero() && br.isZero())             { return EQ; }
+        
+        else if (bl.isZero()) {
+            if (br.sign == POSITIVE)                { return LT; }
+            else /* (br.sign == POSITIVE) */        { return GT; }
+        }
+
+        else /* (br.isZero()) */ {
+            if      (bl.sign == POSITIVE)           { return GT; }
+            else /* (bl.sign == POSITIVE) */        { return LT; }
+        }
+    }
+
+    else if (bl.sign != br.sign) {
+        if      (bl.sign == POSITIVE)               { return GT; }
         else /* (bl.sign == NEGATIVE) */            { return LT; }
     }
     
@@ -535,7 +549,7 @@ function subtract(l, r) {
     r = normalize(r);
     
     if (l.isZero()) {
-        return negate(l);
+        return negate(r);
     }
     
     if (r.isZero()) {
@@ -610,7 +624,8 @@ function borrowFromMantissa(m) {
 
 
 
-//// Basic, O(n^2) multiplication algorithm:
+//
+// Basic, O(n^2) multiplication algorithm:
 function multiply(l, r) {
     var 
         same = preProcess(l, r),

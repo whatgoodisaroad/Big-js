@@ -1,31 +1,76 @@
 module("core");
 
-test("compare(bl, br)", function() {
+test("compare(-83165407.681, -38813385.765954299) = LT", function() {
     var bl, br, expect, result;
     
     bl = new Big("-83165407.681")
     br = new Big("-38813385.765954299");
     expect = true;
     result = compare(bl, br) == LT;
-    equal(result, expect, "compare correctly finds smallest of two negative numbers");
-    
+    equal(
+        result, 
+        expect, 
+        "compare correctly finds smallest of two negative numbers"
+    );
+});
+
+test("compare(-100, -4) = LT", function() {
+    var bl, br, expect, result;
+        
     bl = new Big("-100")
     br = new Big("-4");
     expect = true;
     result = compare(bl, br) == LT;
-    equal(result, expect, "compare correctly finds smallest of two negative numbers");
+    equal(
+        result, 
+        expect, 
+        "compare correctly finds smallest of two negative numbers"
+    );
+});
+
+test("compare(9614994.104949061, 9181308.764) = GT", function() {
+    var bl, br, expect, result;
     
     bl = new Big("9614994.104949061")
     br = new Big("9181308.764");
     expect = true;
     result = compare(bl, br) == GT;
-    equal(result, expect, "compare correctly finds smallest of two negative numbers");
+    equal(
+        result, 
+        expect, 
+        "compare correctly finds smallest of two negative numbers"
+    );
+});
+
+test("compare(0.63372, 0) = GT", function() {
+    var small, zero, expect, result;
+    
+    small = new Big(0.63372);
+    zero = new Big(0);
+
+    expect = true;
+    result = small.greaterThan(zero);
+
+    equal(
+        result, 
+        expect, 
+        "issue #2"
+    );
+});
+
+
+test("8.28655177 <= 8.2428147", function() {
+    var bl, br, expect, result;
     
     bl = new Big(0, [ 8, 2, 8, 6, 5, 5, 1, 7, 7 ],  false); // new Big("8.28655177");
     br = new Big(0, [ 8, 2, 4, 2, 8, 1, 4, 7 ],     false); //new Big("8.2428147");
     expect = true;
     result = bl.lessThanOrEqualTo(br);
-    equal(result, expect, "Compare correctly finds less than or equal to bool.");
+    equal(
+        result, 
+        expect, 
+        "Compare correctly finds less than or equal to bool."
+    );
 });
 
 test("compare(bl, br)", function() {
@@ -48,6 +93,10 @@ test("compareMantissae(m1, m2)", function() {
     m2 = [ 3, 8, 8, 1, 3, 3, 8, 5, 7, 6, 5, 9, 5, 4, 2, 9, 9 ];
     expect = GT;
     result = compareMantissae(m1, m2);
-    equal(result, expect, "compareMantissae correctly compares long mantissae");
+    equal(
+        result, 
+        expect, 
+        "compareMantissae correctly compares long mantissae"
+        );
 });
 

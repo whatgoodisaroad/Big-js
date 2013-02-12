@@ -128,7 +128,7 @@
                 //  then push the token to the operator stack.
                 if (!opStack.length ||
                     topOperator == "(" ||
-                    currentPrecidence > Big.expression.getPrecidence(topOperator])) {
+                    currentPrecidence > Big.expression.getPrecidence(topOperator)) {
                     opStack.push(token);
                 }
                 
@@ -152,24 +152,34 @@
             }
             
             // If a close paren has been found,
-            //  then pop 
+            //  then pop the entire operator stack into the result stack,
+            //  while the top of the stack is not an open paren marker.
             else if (token == ")") {
                 while (opStack[opStack.length - 1] != "(") 
                 {
                     result.push(opStack.pop());
+                    
+                    if (!opStack.length) {
+                        throw "Big.expression.fromInfix: No matching open paren.";
+                    }
                 }
                 
                 opStack.pop();
             }
+            
+            // The token didn't match any pattern.
             else {
                 throw "Big.expression.fromInfix: unrecognized token \"" + token + "\"";
             }
         }
         
+        // After all of the tokens have been processed, 
+        //  pop the operator stack to the result stack.
         while (opStack.length) {
             result.push(opStack.pop());
         }
         
+        // 
         return result.join(" ");
     };
     
