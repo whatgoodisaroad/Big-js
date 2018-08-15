@@ -12,7 +12,7 @@ An Arbitrary Precision Math Library for JavaScript
 
 Big.js provides a class definition (Big) to handle numbers of any precision and
 perform mathematical operations on them within JavaScript. Create a "Big" 
-object in either of the the following ways:
+object in either of the following ways:
 
     new Big("123.456"); // --> [Object]
 
